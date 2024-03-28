@@ -1,4 +1,7 @@
+import copy
+
 def rmax(lst):
+    lst = copy.deepcopy(lst)
     if len(lst) == 1:               #lst에 원소가 하나만 있다면
         return lst[0]               #max 출력 <escape>
     else:
@@ -9,6 +12,7 @@ def rmax(lst):
             return rmax(lst[1:])    #lst[1:]로 재귀호출
 
 def rmin(lst):
+    lst = copy.deepcopy(lst)
     if len(lst) == 1:       
         return lst[0]          
     else:
