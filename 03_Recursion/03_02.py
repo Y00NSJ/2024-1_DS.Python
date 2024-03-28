@@ -3,12 +3,12 @@ def rmax(lst):
         return lst[0]          #max 출력
     else:
         if lst[1] >= lst[0]:    #lst[0] >= max 이면
-            rmax(lst[1:])
+            return rmax(lst[1:])
         elif lst[1] < lst[0]:
             lst[1] = lst[0]
-            rmax(lst[1:])
+            return rmax(lst[1:])
 
 
 
 findList = [3, 1, 6, 5]
-rmax(findList)
+print(rmax(findList))
