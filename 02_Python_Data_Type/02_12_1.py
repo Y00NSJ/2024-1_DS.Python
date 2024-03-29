@@ -1,35 +1,62 @@
-score1 = [(8, 0), (4, 3), (8, 2), (4, 6), (2, 6), 
-          (10, 0), (9, 0), (10, 0), (8, 2), (10, 0), 
-          (10, 10)] # bonus throw
-score2 = [(10, 0), (10, 0), (10, 0), (10, 0), (10, 0), 
-          (10, 0), (10, 0), (10, 0), (10, 0), (10, 0), 
-          (10, 10)] # bonus throw
-score_list = [score1, score2]
+game = []
+total = 0
+isStrike = isSpare = isDouble = False
+for i in range(11):
+    if i == 10:
+        input_score = input("(입력) 보너스 프레임(드로우가 1회일 경우 두 번째 숫자는 0으로 표기하세요) : ")
+    else:
+        input_score = input("(입력) %d 프레임 : " %(i + 1))
+    input_score = input_score.split()
 
-for score in score_list:
-    i = total = 0
-    frame = []
-    for first, second in score:
-        f_total = first + second
-        next_first, next_second = score[i+1]
-        if first == 10:                         #Strike
-            result = 'STRIKE'
-            f_total += next_first + next_second #1~9 프레임에서 더블
-            if i != 9 and next_first == 10:
-                next_next_first, next_next_second = score[i+2]
-                f_total += next_next_first
-        elif (first + second) == 10:            #Spare
-            result = 'SPARE'
-            f_total += next_first
-        else:
-            result = 'NONE'
-        
+    first, second = int(input_score[0]), int(input_score[1])
+    f_total = first + second                # 1회, 2회 쓰러뜨린 핀의 수
+
+
+    #이전 결과가 스페어 / 스트라이크 / 더블이었을 경우
+    if isSpare == True:                     #Spare
+        game[i-1] = list(game[i-1])         #점수 수정 위해 튜플 -> 리스트
+        game[i-1][3] += first               #점수 갱신
+        isSpare = False                     #스페어여부 다시 false로 초기화
+        game[i-1] = tuple(game[i-1])        #리스트 -> 튜플
+        total += first                      #추가한 점수 반영한 총점
+
+    if isStrike == True:                    #Strike
+        game[i-1] = list(game[i-1])         
+        game[i-1][3] += f_total
+        if first == 10 and i != 10:         #1~10 프레임에서 더블이면
+            isDouble = True                 #더블여부 true로 설정
+        isStrike = False
+        game[i-1] = tuple(game[i-1])
         total += f_total
-        frame.append((f_total, result))
-        i += 1
-        if i == 10:                             #보너스 프레임 제외
-            break
 
-print(frame)
-print("Total = ", total)
-print()
+    if isDouble == True:                    #Double 
+        game[i-2] = list(game[i-1])         #'전전' 점수를 변경!
+        game[i-2][3]  += f_total
+        isDouble = False
+        game[i-2] = tuple(game[i-1])
+        total += f_total
+
+    if first == 10:                         #Strike
+        result = 'X'
+        isStrike = True                     #스트라이크여부 true로 설정
+
+    elif (first + second) == 10:            #Spare
+        result = '/'
+        isSpare = True                      #스페어여부 true로 설정
+
+    else:
+         result = '-'
+
+    if i != 10:                             #1~10 프레임이면 프레임 기록
+        game.append((first, second, result, f_total))   #보너스 드로우(프레임)은 기록하지 않음.
+
+    if i == 10:                             #보너스 프레임까지 갔을 경우
+        print(game)
+        print("Total =", total)             #보너스 프레임의 total은 총점에 합산 X
+    else:
+        total += f_total                    #1~10 프레임일 경우
+        print(game)
+        print("Total =", total)
+
+    if i == 9 and isStrike == False and isSpare == False:   #10프레임에서 스트라이크나 스페어가 아닐 경우
+        break                               #그만
