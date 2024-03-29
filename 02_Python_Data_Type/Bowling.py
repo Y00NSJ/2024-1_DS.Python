@@ -17,7 +17,7 @@ def frame_scores(score):
             
             else:
                 itotal += score[i+1][0]
-        game.append[itotal]
+        game.append(itotal)
     return game
 
 frame_scores(score1)
