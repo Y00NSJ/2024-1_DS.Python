@@ -36,7 +36,7 @@ class Fraction:
     def decimal_fraction(self, dec):
         count = 0
         while True:
-            if dec % (10**count) >= 10:
+            if dec - int(dec) == 0:
                 break
             dec *= 10
             count += 1
