@@ -36,11 +36,14 @@ class Expression:
             if sym_type == 'space':
                 continue
             elif sym_type == Sym.OPERAND:     # 읽은 게 operand이면
-                while self.getSymtype(self.expr[i + 1]) == Sym.OPERAND:     # operator 만날 때까지
+                if self.getSymtype(self.expr[i + 1]) == Sym.OPERAND:     # operator 만날 때까지
                     temp += self.expr[i]        #temp 문자열에 추가
-                    print(temp)
-                self.push(int(temp))            #operator 만나면 int로 캐스팅해 push
-                print(temp, end = ' ')
+                    #print(temp)
+                    continue
+                else:
+                    temp += self.expr[i]
+                    self.push(int(temp))            #operator 만나면 int로 캐스팅해 push
+                    print(temp, end = ' ')
             else:
                 print(self.expr[i], end = ' ')
                 op2 = self.pop()
@@ -72,7 +75,7 @@ class Expression:
 
 while True:
     expr = input("수식을 입력하세요(-1 입력 시 종료) >> ")
-    if expr == -1:
+    if expr == '-1':
         break
     else:
         e = Expression(expr)
