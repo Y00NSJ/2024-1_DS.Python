@@ -92,10 +92,10 @@ class hide_and_seek:
                 dice = (random.randint(1,6), random.randint(1,6))
                 if dice == (6, 6):          # (6, 6) 이동 방향 전환
                     if self.way == '+':
-                        way = '-'
+                        self.way = '-'
                         print(i+1, dice, "이동방향 전환: ←")
                     else:
-                        way = '+'
+                        self.way = '+'
                         print(i+1, dice, "이동방향 전환: →")
 
                 elif dice == (5, 5):
