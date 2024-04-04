@@ -72,11 +72,11 @@ class hide_and_seek:
     def __init__(self):
         num = int(input("노드 수 >> "))
         self.board = LinkedList()
-        self.player = ['p1', 'p2']
+        self.player = [None, None]
         for i in range(num):
             if i == 0:            # Player 1
                 self.player[0] = self.board.add(1)
-            elif i == num / 2:    # Player 2 = 1과 대각선 위치
+            elif i == num // 2:    # Player 2 = 1과 대각선 위치
                 self.player[1] = self.board.add(2)
             else:
                 self.board.add(0)
@@ -100,15 +100,13 @@ class hide_and_seek:
 
                 elif dice == (5, 5):
                     print(i+1, dice, "말의 위치 교환 ↔")
-                    self.player[0].data = 2
-                    self.player[1].data = 1
-                    self.player[0].data, self.player[1].data = self.player[1].data, self.player[0].data
+                    self.player[0].data, self.player[1].data = 2, 1
                     self.board.view()
 
 
                 elif dice == (1, 1):
                     print(i+1, dice, "1칸 후진")
-                    isEnd = self.move(self.player[i], i, 1, True)
+                    isEnd = self.move(i, 1, True)
                     if isEnd == True:
                         break
                     else:
@@ -117,7 +115,7 @@ class hide_and_seek:
                 else:
                     spots = dice[0] + dice[1]
                     print(i+1, dice, "%d칸 전진" %(spots))
-                    isEnd = self.move(self.player[i], i, spots)
+                    isEnd = self.move(i, spots)
                     if isEnd == True:
                         break
                     else:
@@ -126,7 +124,7 @@ class hide_and_seek:
                 print(i+1, "player won!")
                 break
 
-    def move(self, player, j, amount, back = False):
+    def move(self, j, amount, back = False):
         start = self.board.find(j+1)
         start.data = 0
         temp = start
