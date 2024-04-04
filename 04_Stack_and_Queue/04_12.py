@@ -38,6 +38,7 @@ class Expression:
             elif sym_type == Sym.OPERAND:     # 읽은 게 operand이면
                 while self.getSymtype(self.expr[i + 1]) == Sym.OPERAND:     # operator 만날 때까지
                     temp += self.expr[i]        #temp 문자열에 추가
+                    print(temp)
                 self.push(int(temp))            #operator 만나면 int로 캐스팅해 push
                 print(temp, end = ' ')
             else:
