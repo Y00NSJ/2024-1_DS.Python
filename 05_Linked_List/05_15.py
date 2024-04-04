@@ -86,6 +86,7 @@ class hide_and_seek:
         self.board.view()
     
     def play_game(self):
+        isEnd = False
         while True:
             for i in range(len(self.player)):
                 dice = (random.randint(1,6), random.randint(1,6))
@@ -102,26 +103,33 @@ class hide_and_seek:
                     self.player[0].data = 2
                     self.player[1].data = 1
                     self.player[0].data, self.player[1].data = self.player[1].data, self.player[0].data
+                    self.board.view()
 
 
                 elif dice == (1, 1):
-                    if self.move(self.player[i], i, 1, True):
-                        print(i+1, "player won!")
+                    print(i+1, dice, "1칸 후진")
+                    isEnd = self.move(self.player[i], i, 1, True)
+                    if isEnd == True:
+                        break
                     else:
-                        print(i+1, dice, "1칸 후진")
                         self.board.view()
 
                 else:
                     spots = dice[0] + dice[1]
-                    if self.move(self.player[i], i, spots):
-                        print(i+1, "player won!")
+                    print(i+1, dice, "%d칸 전진" %(spots))
+                    isEnd = self.move(self.player[i], i, spots)
+                    if isEnd == True:
+                        break
                     else:
-                        print(i+1, dice, "%d칸 전진" %(spots))
                         self.board.view()
+            if isEnd == True:
+                print(i+1, "player won!")
+                break
 
     def move(self, player, j, amount, back = False):
-        player.data = 0
-        temp = player
+        start = self.board.find(j+1)
+        start.data = 0
+        temp = start
         if back == True:
             if self.way == '+':
                 temp = temp.llink
@@ -133,11 +141,11 @@ class hide_and_seek:
                     temp = temp.rlink
                 else:
                     temp = temp.llink
-        player = temp
-        if self.isWin(player):
+        dest = temp
+        if self.isWin(dest):
             return 1
         else:
-            player.data = j + 1
+            dest.data = j + 1
             return 0
 
     def isWin(self, player):
