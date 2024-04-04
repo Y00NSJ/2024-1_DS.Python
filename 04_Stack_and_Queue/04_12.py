@@ -44,6 +44,7 @@ class Expression:
                     temp += self.expr[i]
                     self.push(int(temp))            #operator 만나면 int로 캐스팅해 push
                     print(temp, end = ' ')
+                    temp = ""                       #temp를 flush한다
             else:
                 print(self.expr[i], end = ' ')
                 op2 = self.pop()
