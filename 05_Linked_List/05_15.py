@@ -7,6 +7,7 @@ class Node:
 class LinkedList:
     def __init__(self):
         self.head = None
+        self.tail = None
 
     def empty(self):
         return self.head == None
@@ -15,18 +16,21 @@ class LinkedList:
         node = Node(item)
         if self.empty():                    # 최초 추가할 땐
             self.head = node
-            self.head.rlink = self.head     # LR링크 모두 자기 자신을 가리키게
-            self.head.llink = self.head
+            self.tail = node
+            node.rlink = node    # LR링크 모두 자기 자신을 가리키게
+            node.llink = node
         elif self.head.rlink == self.head:      #두 번째 항목 추가할 때
+            self.tail = node
             node.llink = self.head              #최초 항목과 두 번째 항목 연결
             node.rlink = self.head
             self.head.llink = node
             self.head.rlink = node
         else:                               # 3개 이상: 가장 마지막 항목으로 추가
-            node.llink = self.head
-            node.rlink = self.head.rlink
+            self.tail.rlink = node
+            node.llink = self.tail
+            self.tail = node
+            node.rlink = self.head
             self.head.llink = node
-            self.head.rlink.rlink = node
 
     def delete(self, item):
         if self.empty():
