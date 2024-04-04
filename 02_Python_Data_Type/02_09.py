@@ -14,6 +14,7 @@ for word in words:
     if word not in dic:
         dic[word] = 0
     dic[word] += 1
+
 print("# of different words =", len(dic))
 n = 0
 for word, count in dic.items():
