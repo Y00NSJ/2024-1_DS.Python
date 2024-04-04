@@ -58,9 +58,9 @@ class LinkedList:
             return None
         
     def view(self):
-        temp = self.head.rlink
+        temp = self.head
         print("[", end = ' ')
-        while temp != self.head:
+        while temp != self.tail:
             print(temp.data, end = ' ')
             temp = temp.rlink
         print(temp.data, "]")
@@ -70,7 +70,12 @@ class hide_and_seek:
         num = int(input("노드 수 >> "))
         board = LinkedList()
         for i in range(num):
-            board.add(0)
+            if i == 0:          # Player 1
+                board.add(1)
+            elif i == num / 2:    # Player 2 = 1과 대각선 위치
+                board.add(2)
+            else:
+                board.add(0)
         print("Game Start!")
         print("Player 초기 위치")
         board.view()
