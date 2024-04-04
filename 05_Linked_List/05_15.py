@@ -1,3 +1,5 @@
+import random
+
 class Node:
     def __init__(self, item):
         self.data = item
@@ -31,6 +33,7 @@ class LinkedList:
             self.tail = node
             node.rlink = self.head
             self.head.llink = node
+        return node
 
     def delete(self, item):
         if self.empty():
@@ -47,8 +50,8 @@ class LinkedList:
         del node
 
     def find(self, item):
-        temp = self.head.rlink
-        while temp != self.head:
+        temp = self.head
+        while temp != self.tail:
             if temp.data == item: 
                 return temp
             temp = temp.rlink
@@ -68,19 +71,79 @@ class LinkedList:
 class hide_and_seek:
     def __init__(self):
         num = int(input("노드 수 >> "))
-        board = LinkedList()
+        self.board = LinkedList()
+        self.player = ['p1', 'p2']
         for i in range(num):
-            if i == 0:          # Player 1
-                board.add(1)
+            if i == 0:            # Player 1
+                self.player[0] = self.board.add(1)
             elif i == num / 2:    # Player 2 = 1과 대각선 위치
-                board.add(2)
+                self.player[1] = self.board.add(2)
             else:
-                board.add(0)
+                self.board.add(0)
+        self.way = '+'
         print("Game Start!")
         print("Player 초기 위치")
-        board.view()
+        self.board.view()
     
     def play_game(self):
-        return
+        while True:
+            for i in range(len(self.player)):
+                dice = (random.randint(1,6), random.randint(1,6))
+                if dice == (6, 6):          # (6, 6) 이동 방향 전환
+                    if self.way == '+':
+                        way = '-'
+                        print(i+1, dice, "이동방향 전환: ←")
+                    else:
+                        way = '+'
+                        print(i+1, dice, "이동방향 전환: →")
+
+                elif dice == (5, 5):
+                    print(i+1, dice, "말의 위치 교환 ↔")
+                    self.player[0].data = 2
+                    self.player[1].data = 1
+                    self.player[0].data, self.player[1].data = self.player[1].data, self.player[0].data
+
+
+                elif dice == (1, 1):
+                    if self.move(self.player[i], i, 1, True):
+                        print(i+1, "player won!")
+                    else:
+                        print(i+1, dice, "1칸 후진")
+                        self.board.view()
+
+                else:
+                    spots = dice[0] + dice[1]
+                    if self.move(self.player[i], i, spots):
+                        print(i+1, "player won!")
+                    else:
+                        print(i+1, dice, "%d칸 전진" %(spots))
+                        self.board.view()
+
+    def move(self, player, j, amount, back = False):
+        player.data = 0
+        temp = player
+        if back == True:
+            if self.way == '+':
+                temp = temp.llink
+            else:
+                temp = temp.rlink
+        else:
+            for i in range(amount):
+                if self.way == '+':
+                    temp = temp.rlink
+                else:
+                    temp = temp.llink
+        player = temp
+        if self.isWin(player):
+            return 1
+        else:
+            player.data = j + 1
+            return 0
+
+    def isWin(self, player):
+        if player.data != 0:
+            return True
+
     
 game = hide_and_seek()
+game.play_game()
