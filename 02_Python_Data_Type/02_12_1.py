@@ -2,14 +2,19 @@ frame = []
 total = 0
 isStrike = isSpare = isDouble = False
 for i in range(11):
-    if i == 10:
-        input_score = input("(입력) 보너스 프레임(드로우가 1회일 경우 두 번째 숫자는 0으로 표기하세요) : ")
-    else:
-        input_score = input("(입력) %d 프레임 : " %(i + 1))
-    input_score = input_score.split()
+    while True:
+        if i == 10:
+            input_score = input("(입력) 보너스 프레임(드로우가 1회일 경우 두 번째 숫자는 0으로 표기하세요) : ")
+        else:
+            input_score = input("(입력) %d 프레임 : " %(i + 1))
+        input_score = input_score.split()
 
-    first, second = int(input_score[0]), int(input_score[1])
-    f_total = first + second                # 1회, 2회 쓰러뜨린 핀의 수
+        first, second = int(input_score[0]), int(input_score[1])
+        f_total = first + second                # 1회, 2회 쓰러뜨린 핀의 수
+        if f_total > 10 and i < 10:
+            print("각 프레임 점수의 합계는 10 이하여야 합니다! 다시 입력해주세요.")
+            continue
+        else:break
 
 
     #이전 결과가 스페어 / 스트라이크 / 더블이었을 경우
@@ -20,24 +25,26 @@ for i in range(11):
         frame[i-1] = tuple(frame[i-1])        #리스트 -> 튜플
         total += first                      #추가한 점수 반영한 총점
 
+    if isDouble == True:                    #Double 
+        frame[i-2] = list(frame[i-2])         #'전전' 점수를 변경!
+        frame[i-2][3]  += frame[i-1][0] + first
+        isDouble = False
+        frame[i-2] = tuple(frame[i-2])
+        total += first + frame[i-1][0]      #증가량만큼 합산
+
     if isStrike == True:                    #Strike
-        frame[i-1] = list(frame[i-1])         
-        frame[i-1][3] += f_total
         if first == 10 and i != 10:         #1~10 프레임에서 더블이면
             isDouble = True                 #더블여부 true로 설정
-        isStrike = False
-        frame[i-1] = tuple(frame[i-1])
-        total += f_total
+        else:
+            frame[i-1] = list(frame[i-1])         
+            frame[i-1][3] += f_total
+            isStrike = False
+            frame[i-1] = tuple(frame[i-1])
+            total += f_total
 
-    if isDouble == True:                    #Double 
-        frame[i-2] = list(frame[i-1])         #'전전' 점수를 변경!
-        frame[i-2][3]  += f_total
-        isDouble = False
-        frame[i-2] = tuple(frame[i-1])
-        total += f_total
-
+    
     if first == 10:                         #Strike
-        result = 'X'
+        result = '~'
         isStrike = True                     #스트라이크여부 true로 설정
 
     elif (first + second) == 10:            #Spare

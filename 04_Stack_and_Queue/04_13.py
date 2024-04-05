@@ -121,7 +121,7 @@ while True:
     expr = input("수식을 입력하세요(-1 입력 시 종료) >> ")
     if expr == '-1':
         break
-    else: # ******변환과정 노션 참고******
+    else: 
         e = Expression(expr)
         e.infix_postfix()
         print("infix to postfix : ", e.output)
