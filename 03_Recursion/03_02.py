@@ -11,6 +11,6 @@ def rmax_rmin(lst, idx = 0, maxv = 0, minv = 0):
     return rmax_rmin(lst, idx + 1, maxv, minv)      #idx 1 증가해 재귀호출
 
 
-findList = [21, 7, 40, 29, 11, 5, 90, 78, 64, 15, 88]
+findList = [50, 2, 100, 120, 1]
 maxValue, minValue = rmax_rmin(findList)
 print("최댓값 :", maxValue, "\n최솟값 :", minValue)
