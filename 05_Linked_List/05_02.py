@@ -80,3 +80,31 @@ class SinglyLinkedList:
             print("H =", self.head.data, "T =", self.tail.data)
         else:
             print("빈 리스트")
+
+    def min_max(self):
+        temp = self.head
+        min = self.head.data
+        max = self.head.data
+        while temp:
+            if temp.data < min:
+                min = temp.data
+            elif temp.data > max:
+                max = temp.data
+            temp = temp.link
+        print("최대 :", max, "최소 :", min)
+    
+    def sum_avr(self):
+        temp = self.head
+        sum = 0
+        count = 0
+        while temp:
+            sum += temp.data
+            count += 1
+            temp = temp.link
+        print("합계 :", sum, "평균 :", sum/count)
+
+lst = SinglyLinkedList()
+for item in [20, 10, 30, 50, 40]:
+    lst.attatch(item)
+lst.min_max()
+lst.sum_avr()
