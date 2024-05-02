@@ -18,19 +18,23 @@ class Expression:
             print("Stack Empty")
 
     def isMatch(self):
-        bracket = [0, 0, 0, 0]
+        bracket = [0, 0]
+        double = False
         for token in self.expr:
             if token == '{':
                 bracket[0] = 1
             if token == '(':
-                bracket[1] = 1
+                if bracket[1] == 1:
+                    double = True
+                else:
+                    bracket[1] = 1
             if token == ')':
-                if bracket[3] == 1:
+                if bracket[1] == 1:
                     break
-                bracket[2] = 1
+                bracket[1] = 0
             if token == '}':
-                bracket[3] = 1
-        if bracket[0] != bracket[3] or bracket[1] != bracket[2]:
+                bracket[0] = 0
+        if bracket[0] == 1 or bracket[1] == 1:
             print("수식 괄호 맞지 않음")
         else:
             print("수식 괄호 맞음")
