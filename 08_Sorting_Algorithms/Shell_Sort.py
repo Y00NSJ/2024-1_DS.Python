@@ -27,9 +27,11 @@ class ShellSort:
                         j -= gap
                     self.num[j] = temp
                     h += 1
-            print(gap, self.num)
+                    print(gap, i)
+                print(gap, i, self.num)
+            print(gap, self.num, "\n")
             gap //= 2
 
-num = [38, 32, 17, 5, 18, 25, 12, 7, 2]
+num = [77, 62, 80, 40, 30, 21, 14, 25, 9]
 s = ShellSort(num)
 s.sort()
