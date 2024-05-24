@@ -42,18 +42,19 @@ class Graph:
 
     def kruskal(self):
         # 초기 셋팅
-        for v1, v2, cost in self.graph: # graph[v1] = {(v2, cost)}
+        for v1, v2, cost in network:    # network는 (v1, v2, 가중치)의 형태로 시작 시 주어짐
             if v1 not in self.v_list:
                 self.v_list[v1] = []    # 새로운 정점 집합
             if v2 not in self.v_list:
                 self.v_list[v2] = []
         print("set list = ", self.v_list)
         # 정렬
-        sort_network = self.sort_edge(self.graph)   # [ (가중치, v1, v2) ] 로 리턴
+        sort_network = self.sort_edge(network)   # [ (가중치, v1, v2) ] 로 리턴
         print("cost sorted (cost, v1, v2) : ", sort_network, "\n")
         print("\n ***** Edge Selection Strategies - Kruskal *****")
         for cost, v1, v2 in sort_network:
             print("(", v1, ",", v2, ")", "cost =", cost, end = ' ')
+            print()
             s1 = self.find(v1)
             s2 = self.find(v2)
             print("v1 set : ", s1, " | v2 set : ", s2)
