@@ -13,10 +13,10 @@ class SelectionSort:
 
     def sort(self):
         n = self.size
-        for i in range(n - 1):
+        for i in range(n - 1, 0, -1):
             min = i     # 최솟값 우선 선택
-            for j in range(i + 1, n):
-                if self.num[j] < self.num[min]:
+            for j in range(0, i):
+                if self.num[j] > self.num[min]:
                     min = j
             self.swap(i, min)
             print(self.num)

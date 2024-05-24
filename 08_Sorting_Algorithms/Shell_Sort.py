@@ -15,16 +15,16 @@ class ShellSort:
             if gap % 2 == 0:
                 gap += 1
             for i in range(gap, n):
-                h = 1
+                h = 1       # 그 다음 gap의 위치
                 while i * h < n:
-                    j = i * h
+                    j = i * h   # gap의 위치(=pivot)
                     temp = self.num[i * h]
                     while j >= gap:
-                        if temp < self.num[j - gap]:
+                        if temp < self.num[j - gap]:    # j - gap = 비교 대상 수
                             self.num[j] = self.num[j - gap]
                         else:
                             break
-                        j -= gap
+                        j -= gap    # gap 만큼 앞으로 jump해 재비교 (a - 6, a - 3, a)
                     self.num[j] = temp
                     h += 1
                     print(gap, i)
